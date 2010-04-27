@@ -29,8 +29,10 @@ def make_apps():
             }
             fields = app_model._meta.fields
             for field in fields:
+                field.related = False
                 if isinstance(field, ForeignKey):
                     field.related = True
+        
             model['fields'] = fields
             models.append(model)                
         app = {
@@ -52,7 +54,12 @@ def dot(request):
         graph += 'subcluster_%s {\n' % i
         
         for j, model in enumerate(app['models']):
-            graph += 'model_%s_%s [label="%s"]\n' % (i, j, str(model['model']))
+            graph += 'model_%s_%s [label="%s"];\n' % (i, j, str(model['model']))
+            
+            for k, field in enumerate(model['fields']):
+                if field.related:
+                    graph += ''
+        graph += str(app)
         
         graph += '}\n'
 
