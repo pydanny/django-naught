@@ -46,13 +46,13 @@ def make_apps():
 def dot(request):
     graph = ''    
     apps = make_apps()
-    for index, app in enumerate(apps):
+    for i, app in enumerate(apps):
         if not app['models']:
             continue
-        graph += 'subcluster_%s {\n' % index
+        graph += 'subcluster_%s {\n' % i
         
-        for model in app['models']:
-            graph += str(model['model'])
+        for j, model in enumerate(app['models']):
+            graph += 'model_%s_%s [label="%s"]\n' % (i, j, str(model['model']))
         
         graph += '}\n'
 
