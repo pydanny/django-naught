@@ -5,7 +5,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db.models import fields
 from django.db.models.fields.related import ForeignKey
 from django.db.models import get_app, get_models
-from django.db.models import Model
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -36,16 +36,29 @@ def make_apps():
         app = {
             'app_name':app_name,
             'app_module':app_module,
-            'app_models':models,
+            'models':models,
 
         }
         apps.append(app)
         
     return apps
+    
+def dot(request):
+    graph = ''    
+    apps = make_apps()
+    for index, app in enumerate(apps):
+        if not app['models']:
+            continue
+        graph += 'subcluster_%s {\n' % index
+        
+        for model in app['models']:
+            graph += str(model['model'])
+        
+        graph += '}\n'
+
+    return HttpResponse(graph)
 
 def index(request):
-    
-
     
     return render_to_response('naught/index.html',
             { 'apps':make_apps() },

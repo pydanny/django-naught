@@ -11,7 +11,7 @@
     {% for app in apps %}
     <li>{{ app.app_name }}
         <ul>
-            {% for model in app.app_models %}
+            {% for model in app.models %}
                 <li>{{ model.model }}
                     <ul>
                         {% for field in model.fields %}

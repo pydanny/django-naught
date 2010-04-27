@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    url('', 'naught.views.index',name='naught-index', prefix='')    
+    url('^dot/$', 'naught.views.dot', name='naught-graph'),
+    url('^$', 'naught.views.index', name='naught-index'),
 )
