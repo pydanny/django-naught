@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Django-Naught</title>
+</head>
+
+<body>
+<h1>Django-Naught</h1>
+
+
+<ul>
+    {% for app in apps %}
+    <li>{{ app.app_name }}
+        <ul>
+            {% for model in app.app_models %}
+                <li>{{ model.model }}
+                    <ul>
+                        {% for field in model.fields %}
+                            <li>
+                                {% if field.related %}
+                                    RELATED
+                                {% endif %}
+                                {{ field.name }} {{ field }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+
+</ul>    
+</body>
+</html>
