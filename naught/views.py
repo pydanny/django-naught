@@ -9,7 +9,11 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+
 def make_apps():
+    """ After reviewing models.loading I realize just how naive this code is.
+        Must fix!
+    """
 
     apps = []
     for app_name in settings.INSTALLED_APPS:
@@ -54,7 +58,7 @@ def dot(request):
         graph += 'subcluster_%s {\n' % i
         
         for j, model in enumerate(app['models']):
-            graph += 'model_%s_%s [label="%s"];\n' % (i, j, str(model['model']))
+            graph += 'model_%s_%s [label="%s"];\n' % (app['app_name'], model['model'].__name__, model['model'].__name__)
             
             for k, field in enumerate(model['fields']):
                 if field.related:
